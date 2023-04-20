@@ -12,7 +12,7 @@ You can download the all the toolboxes by running:
 % MATLAB: download_toolboxes.m
 download_toolboxes('toolbox_urls.txt', 'code/toolbox')
 ```
-
+It is recommended to run it on a machine with a **GPU** to solve the spatiotemporal pRF estimates
 
 ## Implemented pRF models
 <img src="doc/models.png " width="700">
