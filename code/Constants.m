@@ -7,8 +7,8 @@ classdef Constants
     methods (Static)
         function d = getDir
             
-            output_dir = '/share/kalanit/users/insubkim/oak/biac2/kgs/projects/insub/demo/results/noiseless/data';
-            simulator_dir = '/share/kalanit/users/insubkim/oak/biac2/kgs/projects/insub/demo/results/noiseless/data';
+            output_dir = '/share/kalanit/users/insubkim/Documents/demo_test/stPRF/results/example/data';
+            simulator_dir = '/share/kalanit/users/insubkim/Documents/demo_test/stPRF/results/example/data';
             sessionDate = 'simulation';
             d.analysisoption = 9; 
             

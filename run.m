@@ -16,14 +16,8 @@ addpath(genpath('./code'))
 %% set variables and params
 
 % set project name
-simName = 'noiseless'; noiselevel = 'none'; 
-% simName = 'example'; noiselevel = 'noise1'; 
+simName = 'example'; noiselevel = 'noise1'; 
 % simName = 'match'; noiselevel = 1; 
-% simName = 'example'; noiselevel = 'low'; 
-% simName = 'noise0'; noiselevel = 'none'; 
-
-% number of voxels (synthetic timecourses to simulate)
-
 
 resultsDir = fullfile('results',simName);
 sessionDir = fullfile(resultsDir,'data');
