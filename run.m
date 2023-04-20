@@ -23,7 +23,9 @@ resultsDir = fullfile('results',simName);
 sessionDir = fullfile(resultsDir,'data');
 
 % set noise level and stimulus size (radius, in visual angle, deg)
-nVoxels = 10; StimSize = 12;  temporalSampleRate = 100; nRuns = 9;
+nVoxels = 10; StimSize = 12;  temporalSampleRate = 100; 
+nRuns = 1; % using 1 run to reduce compute time otherwise
+% use 9 runs to include all the temporal conditions in the experiment 
 
 % set global variables
 outputDir=fullfile(simDir,sessionDir);
@@ -36,6 +38,8 @@ cd(simDir)
 mkdir(fullfile('results',simName,'synthBOLD'));
 
 % create expNames and stimFiles to use
+expNames = string([]);
+stimFiles = string([]);
 for runNumber =  1:nRuns
     expNames(runNumber) = "ST_run" + runNumber;
     stimFiles(runNumber) = "./Stimuli/images_and_params_run0" + runNumber + ".mat";
@@ -53,8 +57,8 @@ jsonTemplate = fullfile('template','template.json');
 
 % manipulate Json files with these randomly generated params
 jsonDir = fullfile(resultsDir,'jsonfiles');  mkdir(jsonDir);
-% randjson(jsonDir,jsonTemplate,nVoxels,expNames,stimFiles, ...
-%     StimSize,temporalSampleRate,RF,tParam1,tParam2,noiselevel);
+randjson(jsonDir,jsonTemplate,nVoxels,expNames,stimFiles, ...
+    StimSize,temporalSampleRate,RF,tParam1,tParam2,noiselevel);
 
 %% synthetic BOLD generation
 jFiles2 = getAllFiles2(jsonDir, sprintf('*.json'),2);
@@ -75,6 +79,12 @@ voxelNumber = 1;
 st_viewTC(t.DT,voxelNumber)
 
 %% solve pRF model
+% [Warning]: A GPU is highly recommended for this task due to
+% the significant compute time required. 
+% Running the task on a CPU may result in extremely long processing times,
+% We strongly advise using a GPU to ensure that the task completes in a timely manner.
+
+% set mrVista files
 dataTemplate = fullfile('./template','data_template');
 copyfile(dataTemplate,fullfile(resultsDir,'data'))
 copyfile('./Stimuli',fullfile(resultsDir,'data','Stimuli'))
@@ -90,8 +100,6 @@ for i =  1:nRuns
     mrSESSION.functionals(i) = f;
 end
 save(fullfile(resultsDir,'data','mrSESSION.mat'),'dataTYPES','mrSESSION','vANATOMYPATH')
-% save('mrSESSION_template.mat','dataTYPES','mrSESSION','vANATOMYPATH')
-
 
 %%
 cd(simDir)
@@ -104,7 +112,7 @@ wSearch = 8;
 
 temporalModels = {'CST','DN-ST','spatial'};
 
-
+% actually start solving
 for tm = 1:length(temporalModels)
     cd(simDir)
     temporalModel =  temporalModels{tm};
@@ -126,38 +134,4 @@ estimated_table = Constants.getDir.sim_pt;
 pt = load(estimated_table); % predicted table
 gt = load(fullfile(simDir,sessionDir,'GT.mat')); % ground truth table
 st_simulation_plot(gt,pt)
-
-
-
-%%
-%%
-head(df)
-%%
-cd(simDir)
-% st_simPlot(simDir,VoxelName)
-st_simPlot2(gt,pt)
-
-% close all;
-% end
-
-
-%% 
-
-% 
-% 
-% %% copy results to subjectfolder2
-% saveVoxelName = ['voxel-all_' noiselevel suffix];
-% copyDir = fullfile(sessionDir,'Gray','MotionComp_RefScan1',...
-%     Constants.getDir.sessionDate,saveVoxelName);
-% if ~isfolder(copyDir)
-%     mkdir(copyDir)
-% end
-% resultDir = fullfile(sessionDir,'Gray','MotionComp_RefScan1',...
-%     Constants.getDir.sessionDate);
-% cd(resultDir)
-% movefile('*.mat',copyDir);
-% 
-
-
-
 

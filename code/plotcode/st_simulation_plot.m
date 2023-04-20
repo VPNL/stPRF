@@ -2,26 +2,7 @@ function st_simulation_plot(gt,pt)
 
 % gt: ground-truth table
 % pt: predicted table (model estimated)
-
-
-% simDir    = '/share/kalanit/users/insubkim/oak/biac2/kgs/projects/spatiotemporal/experiments/simulator';
-% VoxelName = 'voxel-all_noise2-3i50f';
-
-% effectivesigma = 0;
-% 
-
-% cd(simDir)
-% sessionDir = fullfile(simDir,'data','subj01');
-% noiselevel = split(VoxelName,'_');
-% noiselevel = noiselevel{2};
-% noiselevel = split(noiselevel,'-');
-% noiselevel = noiselevel{1};
-
-%   '081422'
-% analysisDate = Constants.getDir.sessionDate;
-% pt = load(fullfile(sessionDir,'dataTable', ...
-%     Constants.getDir.sessionDate, ...
-%     'gray',VoxelName,'df_subj01.mat'));
+mycolor = getmycolors(1);
 
 
 tmp = [];
@@ -40,9 +21,6 @@ tc{3} = tableFilter(tmp,params);
 pt.DT= removevars(pt.DT,{'trainData','testData','trainPred','testPred','trainSet','testSet'});
 
 
-% gt = getAllFiles(fullfile('./results/',analysisDate,'voxels/'),...
-%     sprintf('GT*%s.mat',noiselevel),1);
-% gt = load(gt{1});
 gt = gt.DT;
 
 
@@ -69,17 +47,6 @@ rows = find(ismember(DT.tmodel, {'1ch_dcts', 'ST_DN'}));
 DT.modelNumber( find(ismember(DT.tmodel, {'1ch_glm', 'spatial'})))  = 1;
 DT.modelNumber( find(ismember(DT.tmodel, {'1ch_dcts', 'DN_ST'}))) = 2;
 DT.modelNumber(  find(ismember(DT.tmodel, {'3ch_stLN', 'CST'}))) = 3;
-
-% effectivesigma = 0;
-% if effectivesigma
-%     DT((DT.tmodel=="CST"),:).sigma = ...
-%         DT((DT.tmodel=="CST"),:).sigma./sqrt(DT((DT.tmodel=="CST"),:).exponent);
-%     gt{3}.RF(:,3)
-%     gt3_exp = cell2mat(gt{3}.tparam);
-%     gt3_exp = gt3_exp(:,3);
-%     gt{3}.RF(:,3) = gt{3}.RF(:,3)./sqrt(gt3_exp);
-% 
-% end
 
 
 params = []; df=[]; df_all=[]; pt=[];
@@ -112,44 +79,6 @@ tms2 = {'\tau', '\itn'};
 
 
 % 3 6 35 54 91 72
-%% SNR and Varexp
-mycolor = getmycolors(1);
-
-% fn = figure('units','centimeters','position',[0,0,10,10]);
-tch_fig('SNR-VAREXP',[0,0,20,10]);
-for tm = 1:length(targetTmodel)
-    subplot(121)
-    g = gt{tm};
-    p = pt{tm};
-    xgrid = linspace(-20,20,1000)';
-    if sum(isinf(g.SNR) ) < 0
-        pd = fitdist(g.SNR,'Normal');
-        pdfEst = pdf(pd,xgrid);
-        line(xgrid,pdfEst,'color',mycolor(tm,:),'linewidth',3);
-    %     xlim([-0.25 0.4]); axis square;
-        axis square;
-        ylabel('density');
-        xlabel('SNR (dB)');
-        tch_set_axes;
-    end
-    
-    subplot(122);
-    binWidth = 0.01;
-    xgrid = linspace(0,1,1000)';
-    lastVal = ceil(max(p.cv_varexp));
-    pd = fitdist(p.cv_varexp,'Normal');
-    pdfEst = pdf(pd,xgrid);
-    line(xgrid,pdfEst,'color',mycolor(tm,:),'linewidth',3); hold on;
-%     xlim([0.25 0.75]); axis square;
-%     xticks(0:0.25:1)
-    xlabel('model accuracy (R^2)');
-    ylabel('density');
-    tch_set_axes;
-    
-
-
-end
-% legend(tmn,'location','best'); legend box off;
 
 %% plot scatter
 tch_fig('xys',[0,0,40,20]);
@@ -460,10 +389,6 @@ for tm = 1:3
         'HorizontalAlignment','left','Color',mycolor(tm,:), ...
         'FontSize',10,'FontWeight','Bold'); hold on
     end
-%         dim = [.7 .8 .2 .2];
-%         h = annotation('textbox', dim, 'string', tls, ...
-%             'FitBoxToText','on','Color','w')
-
     end
 
 end
