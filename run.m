@@ -1,16 +1,17 @@
 %% spatiotemporal pRF Demo
+% 1) download toolboxes
+% 2) set variables and create JSON files
+% 3) create Synthetic timecourses
+% 4) Solve spatiotemporal PRF models
+% 5) Plot results
 
-% download toolboxes
+%%
+% download required toolboxes
 download_toolboxes('toolbox_urls.txt', 'code/toolbox')
 
 %% generate synthBOLD
 clear; clc;
-% addpath(genpath('/share/kalanit/users/insubkim/oak/biac2/kgs/projects/insub/demo/code'));
-% addpath(genpath('/share/kalanit/users/insubkim/oak/biac2/kgs/projects/insub/demo/toolbox'));
-% addpath(genpath('~/Documents/MATLAB/toolboxes/spatiotemporalPRFs/'));  %---> get it from github
-% addpath(genpath('~/Documents/MATLAB/toolboxes/vistasoft')); %---> get it from github
-
-simDir = pwd;
+simDir = pwd; % set path...
 addpath(genpath('./code'))
 
 %% set variables and params
