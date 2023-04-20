@@ -38,6 +38,8 @@ The software takes stimulus information and a JSON file as input and generates s
 **JSON file:** To compute spatiotemporal pRF models, the JSON file's temporal class must be specified. 
 Three different types of pRF models can be used: spatial pRF model, CST model, and DN-ST model. The spatial pRF model is similar to the one-Gaussian pRF model but uses a higher temporal sampling resolution. CST and DN-ST models are spatiotemporal pRF models that have explicit temporal impulse response functions. 
 
+For more detailed information about how to edit the JSON file ([Link](https://github.com/vistalab/PRFmodel/wiki/prf-Synthesize:-how-to-edit-json-file))
+
 ### (2) Solve pRF models
 Solve the parameters for each model(`spatial`, `DN-ST`, and `CST`). Synthetic timecourses generated for each model are solved by the same model.
 
