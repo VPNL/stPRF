@@ -1,0 +1,72 @@
+{"subjectName":"st",
+"sessionName":"simulation_test",
+"repeats":1,
+"useparallel":false,
+"TR":1,
+"Type":"st",
+"cssexp":1,
+"signalPercentage":"spc",
+"BOLDcontrast":5,
+"BOLDmeanValue":100,
+"computeSubclasses":true,
+"HRF":[
+    {
+    "Type":"vista_twogammas",
+    "Duration":20,
+    "normalize":"area"
+    }
+],
+"RF":[
+    {
+    "Centerx0":[5],
+    "Centery0":[5],
+    "Theta":0,
+    "sigmaMajor":1,
+    "sigmaMinor":1,
+    "dog_sigmaMajor":0,
+    "dog_sigmaMinor":0,
+    "dog_Theta":0,
+    "dog_Scale":0,
+    "Type":"mrvista"
+    }
+],
+"Stimulus":[
+    {
+    "fieldofviewHorz":12,
+    "fieldofviewVert":12,
+    "ResizedHorz":30,
+    "ResizedVert":30,
+    "frameduration":1,
+    "durationSecs":220,
+    "Shuffle":0,
+    "expName":"ST_r2",
+    "myload":"./Stimuli/images_and_params_run02.mat"
+    }
+],
+"Noise":[
+    {
+    "voxel":"low",
+    "seed":"random"
+    }
+],
+"Temporal":[
+    {
+    "temporalModel":"spatial",
+    "tParams":{"fields":["shift","weight"],
+               "values":[0,1]},
+    "fs": 100
+    },
+    {
+    "temporalModel":"CST",
+    "tParams":{"fields":["tau_s","tau_t","exponent"],
+               "values":[4.93, 4.93,1]},
+    "fs": 100
+    }, 
+    {
+    "temporalModel":"DN-ST",
+    "tParams":{"fields":["tau1","weight","tau2","n","sigma"],
+               "values":[0.05,        0,   0.1,  2,    0.1]},
+    "fs": 100
+    }
+]
+}
