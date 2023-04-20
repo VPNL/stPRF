@@ -7,7 +7,7 @@ Scripts were developed and validated using MATLAB 2020b (Mac OS/Linux).
 
 - SpatiotemporalpRFs [Link](https://github.com/VPNL/spatiotemporalPRFs)
 - PRFmodels [Link](https://github.com/vistalab/PRFmodel)
-- Vistasoft [Link](https://example.com)
+- Vistasoft [Link](https://github.com/KimInsub/vistasoft.git)
 
 
 ## Implemented pRF models
