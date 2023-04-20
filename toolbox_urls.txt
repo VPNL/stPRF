@@ -1,1 +1,4 @@
 https://github.com/acerbilab/bads.git
+https://github.com/VPNL/spatiotemporalPRFs.git
+https://github.com/KimInsub/vistasoft.git
+https://github.com/KimInsub/PRFmodel.git

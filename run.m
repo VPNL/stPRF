@@ -1,33 +1,17 @@
-%% restoredefaultpath
-
-% clear; clc;
-% addpath(genpath('/oak/stanford/groups/kalanit/biac2/kgs/projects/insub/demo/'));
-% %%
-% analysisDate = '081422/';
-% nativeOakProjectPth =  '/oak/stanford/groups/kalanit/biac2/kgs/projects/insub/demo';
-% cd(nativeOakProjectPth)
-% randjson(jsonDir,jFiles,nVoxels,RF,tParam1,tParam2,noiselevel);
-% 
-% subjNumber = 1; 
-% subjID     = sprintf('subj%02d', subjNumber);
-% sessionPth  = [ 'data/' subjID '/'];
-% sessionDir =  fullfile(nativeOakProjectPth,expDir,sessionPth);
-
-%%
-% cd('/oak/stanford/groups/kalanit/biac2/kgs/projects/spatiotemporal/experiments/simulator')
+%% spatiotemporal pRF Demo
 
 % download toolboxes
-download_toolboxes('toolbox_urls.txt', 'toolbox')
+download_toolboxes('toolbox_urls.txt', 'code/toolbox')
 
 %% generate synthBOLD
-% restoredefaultpath;
 clear; clc;
-addpath(genpath('/share/kalanit/users/insubkim/oak/biac2/kgs/projects/insub/demo/code'));
-addpath(genpath('/share/kalanit/users/insubkim/oak/biac2/kgs/projects/insub/demo/toolbox'));
-addpath(genpath('~/Documents/MATLAB/toolboxes/spatiotemporalPRFs/'));  %---> get it from github
-addpath(genpath('~/Documents/MATLAB/toolboxes/vistasoft')); %---> get it from github
+% addpath(genpath('/share/kalanit/users/insubkim/oak/biac2/kgs/projects/insub/demo/code'));
+% addpath(genpath('/share/kalanit/users/insubkim/oak/biac2/kgs/projects/insub/demo/toolbox'));
+% addpath(genpath('~/Documents/MATLAB/toolboxes/spatiotemporalPRFs/'));  %---> get it from github
+% addpath(genpath('~/Documents/MATLAB/toolboxes/vistasoft')); %---> get it from github
 
 simDir = pwd;
+addpath(genpath('./code'))
 
 %% set variables and params
 
