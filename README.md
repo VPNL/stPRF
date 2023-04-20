@@ -5,7 +5,7 @@ Contact: Insub Kim (insubkim@stanford.edu)
 ## Dependencies
 Scripts were developed and validated using MATLAB 2020b (Mac OS/Linux).
 
-- SpatiotemporalpRF [Link](https://example.com)
+- SpatiotemporalpRFs [Link](https://github.com/VPNL/spatiotemporalPRFs)
 - PRFmodels [Link](https://github.com/vistalab/PRFmodel)
 - Vistasoft [Link](https://example.com)
 
