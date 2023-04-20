@@ -33,7 +33,7 @@ run.m
 ```
 
 ### (1) Synthetic timecourse generation
-The software takes stimulus information and a JSON file as input and generates synthetic timecourses with noise for the three different pRF models: `spatial`, `DN-ST`, and `CST`.
+The software takes stimulus information and a JSON file ([example JSONfile](https://github.com/VPNL/stPRF/blob/main/template/template.json)) as input and generates synthetic timecourses with noise for the three different pRF models: `spatial`, `DN-ST`, and `CST`.
 
 **JSON file:** To compute spatiotemporal pRF models, the JSON file's temporal class must be specified. 
 Three different types of pRF models can be used: spatial pRF model, CST model, and DN-ST model. The spatial pRF model is similar to the one-Gaussian pRF model but uses a higher temporal sampling resolution. CST and DN-ST models are spatiotemporal pRF models that have explicit temporal impulse response functions. 
