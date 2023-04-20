@@ -1,11 +1,15 @@
 clear; clc;
+
 simDir = pwd; % set path...
 addpath(genpath('./code'))
-%% 
 
-% set project name
-simName = 'paper'; 
+% download required toolboxes
+download_toolboxes('toolbox_urls.txt', 'code/toolbox')
+%% download results file from OSF
+% https://osf.io/3gwhz/files/osfstorage
 
+%% set project name
+simName = 'paperSim'; 
 resultsDir = fullfile('results',simName);
 sessionDir = fullfile(resultsDir,'data');
 
