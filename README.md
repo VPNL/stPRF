@@ -3,12 +3,15 @@
 Contact: Insub Kim (insubkim@stanford.edu)
 
 ## Dependencies
-Scripts were developed and validated using MATLAB 2020b (Mac OS/Linux).
+Scripts were developed using MATLAB 2020b (Mac OS/Linux).
 
-- SpatiotemporalpRFs [Link](https://github.com/VPNL/spatiotemporalPRFs)
-- PRFmodels [Link](https://github.com/vistalab/PRFmodel)
-- Vistasoft [Link](https://github.com/KimInsub/vistasoft.git)
-- BADS [Link](https://github.com/acerbilab/bads.git)
+Toolboxes: [SpatiotemporalpRFs](https://github.com/VPNL/spatiotemporalPRFs), [PRFmodels](https://github.com/vistalab/PRFmodel), [Vistasoft](https://github.com/KimInsub/vistasoft.git), [BADS](https://github.com/acerbilab/bads.git)
+
+You can download the all the toolboxes by running:
+```Matlab
+% MATLAB: download_toolboxes.m
+download_toolboxes('toolbox_urls.txt', 'code/toolbox')
+```
 
 
 ## Implemented pRF models
@@ -17,21 +20,26 @@ Scripts were developed and validated using MATLAB 2020b (Mac OS/Linux).
 
 ## Demo
 
+```Matlab
+%% spatiotemporal pRF Demo (run.m)
+% - download toolboxes
+% - set variables and create JSON files
+% - create synthetic timecourses
+% - solve spatiotemporal PRF models
+% - plot results
+
+run.m
+
+```
+
 ### (1) Synthetic timecourse generation
 The software takes stimulus information and a JSON file as input and generates synthetic timecourses with noise for the three different pRF models: `spatial`, `DN-ST`, and `CST`.
 
 ### (2) Solve pRF models
-Solve the parameters for each model. Synthetic timecourses generated for each model are solved by the same model.
+Solve the parameters for each model(`spatial`, `DN-ST`, and `CST`). Synthetic timecourses generated for each model are solved by the same model.
 
 ### (3) Check performance
 Compare the ground truth and predicted timecourses for each model, and plot the results.
-
-#### stimulus
-
-#### JSON
-
-#### models
-
 
 
 ## Paper
