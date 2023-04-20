@@ -12,29 +12,51 @@ tmp.testPred = cell2mat(pt.DT.testPred);
 tmp = struct2table(tmp);
 
 params = [];
-params.tmodel =  "spatial";
-tc{1} = tableFilter(tmp,params);
-params.tmodel =  "DN_ST";
-tc{2} = tableFilter(tmp,params);
-params.tmodel = 'CST';
-tc{3} = tableFilter(tmp,params);
+
+% Check model naming conventions
+% if '3ch_stLN' is present in unique values of tmp.tmodel
+if any(strcmp(unique(tmp.tmodel), '3ch_stLN'))
+    % Define the three different tmodels for the 'spatial', 'DN_ST', and 'CST' cases
+    tmodels = {'1ch_glm', '1ch_dcts', '3ch_stLN'};
+
+else
+    % Define the three different tmodels for the '1ch_glm', '1ch_dcts', and '3ch_stLN' cases
+    tmodels = {'spatial', 'DN_ST', 'CST'};
+
+end
+
+% Initialize the cell array of filtered tables
+tc = cell(1, 3);
+
+% Loop over the three different tmodels and filter the table with each one
+for ii = 1:3
+    % Set the current tmodel
+    params.tmodel = tmodels{ii};
+    % Filter the table with the current tmodel and store the result in tc
+    tc{ii} = tableFilter(tmp, params);
+end
+
 pt.DT= removevars(pt.DT,{'trainData','testData','trainPred','testPred','trainSet','testSet'});
 
-
-gt = gt.DT;
+if length(gt)<2
+    gt = gt.DT;
+end
 
 
 %fix order of the ground-truth data
 current_order = {gt{1}.tmodel{1}, gt{2}.tmodel{1}, gt{3}.tmodel{1}};
 
 % Define the desired order
-desired_order = {'spatial', 'DN-ST', 'CST'};
+% desired_order = {'spatial', 'DN-ST', 'CST'};
+% Use cellfun and strrep to replace '_' with '-'
+desired_order = cellfun(@(s) strrep(s, '_', '-'), tmodels, 'UniformOutput', false);
+
 
 % Find the indices of each element in the original array
 [~, idx] = ismember(desired_order, current_order);
 
 gt = gt(idx);
-targetTmodel =  desired_order;
+targetTmodel =  tmodels;
 
 
 DT = pt.DT;
@@ -313,7 +335,7 @@ ylim([0 110])
 % printnice(ff,0,saveDir,sprintf('fig-%d',ff));
 
 %% tc plot
-s=1;
+s=2;
 for tm = 1:3
     g = gt{tm};
     pp = [g.RF(s,:) g.tparam{1,:}];
