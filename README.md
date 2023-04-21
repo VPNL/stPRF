@@ -12,11 +12,14 @@ You can download the all the toolboxes by running:
 % MATLAB: download_toolboxes.m
 download_toolboxes('toolbox_urls.txt', 'code/toolbox')
 ```
+It is recommended to run it on a machine with a **GPU** to solve the spatiotemporal pRF estimates
 
+
+## Experiment
+[![experiment](https://img.youtube.com/vi/M9LGkSw4n8Q/0.jpg)](https://youtu.be/M9LGkSw4n8Q)
 
 ## Implemented pRF models
 <img src="doc/models.png " width="700">
-
 
 ## Demo
 
@@ -49,7 +52,7 @@ Compare the ground truth and predicted timecourses for each model, and plot the 
 
 ## Paper
 
-* Code to regenerate figures in the paper [Link](https://github.com/vistalab/PRFmodel)
+* Code to regenerate figures in the paper [Link](https://github.com/VPNL/stPRF/tree/main/code/figures)
 
 ## References
 Dumoulin, S. O., & Wandell, B. A. (2008). Population receptive field estimates in human visual cortex. Neuroimage, 39(2), 647-660.
