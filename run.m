@@ -25,7 +25,7 @@ sessionDir = fullfile(resultsDir,'data');
 
 % set noise level and stimulus size (radius, in visual angle, deg)
 nVoxels = 10; StimSize = 12;  temporalSampleRate = 100; 
-nRuns = 1; % using 1 run to reduce compute time otherwise
+nRuns = 2; % using 1 run to reduce compute time otherwise
 % use 9 runs to include all the temporal conditions in the experiment 
 
 % set global variables
@@ -136,3 +136,4 @@ pt = load(estimated_table); % predicted table
 gt = load(fullfile(simDir,sessionDir,'GT.mat')); % ground truth table
 st_simulation_plot(gt,pt)
 
+%% 1.97 0.47
