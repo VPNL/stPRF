@@ -1,15 +1,22 @@
 function [fn,saveName] = st_plot_param_scatter(DT, params,roiList,targetVar)
 
+rng('default')
+
+sampleSize = 50;
 
 cc = getmycolors;
-DT((DT.tmodel=="3ch_stLN"),:).sigma = ...
-    DT((DT.tmodel=="3ch_stLN"),:).sigma./sqrt(DT((DT.tmodel=="3ch_stLN"),:).exponent);
+% DT((DT.tmodel=="3ch_stLN"),:).sigma = ...
+%     DT((DT.tmodel=="3ch_stLN"),:).sigma./sqrt(DT((DT.tmodel=="3ch_stLN"),:).exponent);
+% 
+% initial filter
+df = tableFilter(DT,params);
 
-% df = removeSmallROI(DT,20);
-df = DT;
-%%
+% give number to ROIs
+df = st_tablegiveROInumber(df, roiList);
+
 id = unique(df.subjID);  
-sampleSize = 50;
+
+
 if strcmp(targetVar,'sigma')
     x1 = linspace(0,8);
 elseif strcmp(targetVar,'ecc')
@@ -19,8 +26,9 @@ elseif strcmp(targetVar,'phase')
 else
     x1 = linspace(-12,12);
 end
+  
+%%
 counter =1; 
-
 for er = 1:length(roiList)
     params = [];
     params.roiNumber =  er;
@@ -71,7 +79,7 @@ end
 
 
 %%
-fn=figure(1); clf;
+fn=figure(); clf;
 ScrSz = get(0, 'screensize');
 set(gcf, 'position',  [ScrSz(1) ScrSz(2) ScrSz(3)/2 ScrSz(4)/3]);
 saveName = ['scatter-' targetVar];
@@ -111,14 +119,14 @@ tch_plot_tc(x1,plotData,1.5,cc(2,:),cc(2,:),'sem'); hold on;
 
 plotData = cell2mat(fitData2(:,er));
 plotData( ~any(plotData,2), : ) = [];  %rows
-plot(linspace(-12,12,10),linspace(-12,12,10),'--','linewidth',3); hold on;
+plot(linspace(-12,12,10),linspace(-12,12,10),'k--','linewidth',2); hold on;
 tch_plot_tc(x1,plotData,1.5,cc(3,:),cc(3,:),'sem'); hold on;
 
 yticks([min(x1) mean(x1) max(x1)]);
 xticks([min(x1) mean(x1) max(x1)]);
 if strcmp(targetVar,'phase')
-    xticklabels({'-\pi','o','\pi'})
-    yticklabels({'\pi','o','\pi'})
+    xticklabels({'-\pi','0','\pi'})
+    yticklabels({'\pi','0','\pi'})
 end
 xlim([min(x1) max(x1)]); ylim([min(x1) max(x1)]);
 
