@@ -1,4 +1,4 @@
-function [fn,saveName]=st_plot_sigma_window(DT,params, roiList,targetModel)
+function [fn,saveName]=st_plot_sigma_window(DT,params, roiList,targetModel,dostats)
 
 
 
@@ -15,6 +15,12 @@ end
 if notDefined('targetVar')
    targetVar = 'temporal';
 end
+
+
+if notDefined('dostats')
+   dostats = 0;
+end
+
 
 params.modelNumber = targetModel;
 
@@ -62,7 +68,7 @@ for sj = 1:length(id)
     
 end
 
-%%
+
 
 %%
 fn.fig1 = figure(1); clf;
@@ -74,7 +80,9 @@ set(gcf, 'position',  [ScrSz(1) ScrSz(2) ScrSz(3)/2 ScrSz(4)/1.5]);
 for i =1:length(roiList)
 
     w = cellfun(@median, window(:,i));
+    
     w =w(~isnan(w));
+    
     x_e = nanstd(w) / sqrt(size(w, 1) - 1);
     x =  median(cell2mat(window(:,i)));
     
@@ -148,5 +156,12 @@ set(gca,'XMinorTick','on','yMinorTick','on')
 title('temporalWindow vs prfSize (CI)')
 
 
+%%
+if dostats == 1
+    p_value = perfrom_permutation(window,roiList);
+    sprintf("temporal_window p_value = %.4f",p_value)
+    p_value = perfrom_permutation(sigma,roiList);
+    sprintf("sigma p_value = %.4f",p_value)
+end
 
 end

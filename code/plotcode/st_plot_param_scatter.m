@@ -7,7 +7,7 @@ sampleSize = 50;
 cc = getmycolors;
 % DT((DT.tmodel=="3ch_stLN"),:).sigma = ...
 %     DT((DT.tmodel=="3ch_stLN"),:).sigma./sqrt(DT((DT.tmodel=="3ch_stLN"),:).exponent);
-% 
+
 % initial filter
 df = tableFilter(DT,params);
 
@@ -63,13 +63,6 @@ for er = 1:length(roiList)
         p2=polyfit(df1.(targetVar),df3.(targetVar),1);
         fitData2{sj,er} = polyval(p2,x1);
         boxData2{sj,er} = sampdata2; %[df1.sigma df2.sigma ];
-
-
-        statTable(counter).slope1 = p1(1);
-        statTable(counter).slope2 = p2(1);
-        statTable(counter).roi  = string(roiList{er});
-        statTable(counter).subj =id(sj);
-        
         counter= counter+1;
     end 
 end
