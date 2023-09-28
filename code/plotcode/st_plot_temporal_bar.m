@@ -1,6 +1,5 @@
 function [fn,saveName] = st_plot_temporal_bar(DT, params,roiList,targetModel,targetVar)
 %%
-% fn = figure('Renderer', 'painters', 'Position', [10 10 1500 600]);
 
 if targetModel == 2
     tms = {'\tau_1', '\itw', '\tau_2', '\itn_D_N', '\sigma_D_N'};
@@ -71,8 +70,6 @@ fn.fig1 = figure('Renderer', 'painters', 'Position', [10 10 1500 600]);
 saveName.fig1 = ['subjectwise-mode-median-tau-peak' num2str(targetModel)];
 
 mg = cellfun(@(x) round(x),agg ,'UniformOutput' ,false);
-% edges = linspace(0,100,51);
-% decc = cellfun(@(x) discretize(x,edges),ecc,'UniformOutput',false);
 
 subplot(121)
 plotData = cellfun(@median ,mg);
@@ -85,7 +82,6 @@ st_plotBox(plotData,roiList,gc,'\tau (ms)')
 title('mode')
 
 
-% return;
 %%
 fn.fig2 = tch_fig(['contributions'],[0,0,40,15]);
 saveName.fig2 = ['time-to-peak-streams' num2str(targetModel)];
@@ -111,9 +107,8 @@ for er = 1 :length(roiList)
 end
 
 nh = hot;
-nh(end-25:end,:) = []; % remove white it is too bright
+nh(end-25:end,:) = [];
 colormap(nh)
-% colormap hot
 
 subplot(121);
 allRaster =[];
@@ -127,14 +122,12 @@ xticklabels(xticks*10);
 yticklabels(fliplr(roiList));
 xlabel('Time (ms)'); tch_set_axes; box off; 
 
-xlim([0 30]); % colorbar('XTick', 0:0.25:1);
+xlim([0 30]); 
 axis square;   
 clip = sort(max(allRaster'));
-% caxis([0 mean(clip)+std(clip)]);
 caxis([0 0.06]);
 
 colorbar
-% caxis([0 clip(end)]);
 
 
 %%
@@ -282,14 +275,8 @@ for i = 1:n
         'MarkerEdgeColor','k','MarkerFaceColor','k', ...
         'MarkerFaceAlpha',.3,'MarkerEdgeAlpha',.3); hold on;
     
-%     s = scatter(ones(size(data(:,i)))* i ,data(:,i),[], ...
-%         'MarkerEdgeColor',lc(i,:),'MarkerFaceColor',lc(i,:), ...
-%         'MarkerFaceAlpha',.3,'MarkerEdgeAlpha',.3); hold on;
-
 end
-% yticks = 0:10:100;
 yticklabels(yticks*10);
-% xticks(mean(reshape(find(nansum(data)),2,[])));
 xticklabels(roiList)
 h=gca; h. XAxis. TickLength = [0 0];
 ylabel(plotylabel);
@@ -311,12 +298,9 @@ p =[];
 p.ringTicks = (1:3)/3*fieldRange;
 p.gridLineWidth = 2;
 p.fontSize = 10;
-% p.gridColor = 'k';
 polarPlot([], p);
 
 target = 1:length(subX);
-% target = 1:nVoxels;
-
 target = Shuffle(target);
 
 if nVoxels < length(subX)
@@ -334,52 +318,3 @@ for i= target
 end
 end
 
-%% extra ecc and tau
-% % % fn.fig0 = figure('Renderer', 'painters', 'Position', [10 10 1500 600]);
-% % % edges = linspace(1,12,13);
-% % % decc = cellfun(@(x) discretize(x,edges),ecc,'UniformOutput',false);
-% % % 
-% % % for sj = 1:10
-% % % for ttt =1:length(edges)-1
-% % %     subplot(1,10,sj)
-% % % idx = find(decc{sj,1}==ttt);
-% % % pd = agg{sj,1};
-% % % if ~isempty(idx)
-% % % tch_plot_bar(pd(idx),'r',ttt); hold on;
-% % % % xlim([0 10])
-% % % end
-% % % % tch_plot_bar(pd(idx),[],2); hold on;
-% % % end
-% % % yticklabels(yticks*10)
-% % % ylabel('tau')
-% % % xlabel('ecc')
-% % % 
-% % % end
-% % % % agg(sj,er)))
-% % % % bar(agg{1,1},ecc{1,1})
-% % % saveName.fig0 = ['ecc-tau-' num2str(targetModel) '.png'];
-
-% %%
-% fn.fig5 = figure('Renderer', 'painters', 'Position', [     93          31        1796         903]);
-% 
-% subplot(141)
-% lw = 2;
-% for er = 1:3
-% tch_plot_tc(1:length(edges),allKDF{er},lw,gc(er,:),gc(er,:),'sem'); hold on;
-% end
-% 
-% subplot(142)
-% for er = 4:5
-% tch_plot_tc(1:length(edges),allKDF{er},lw,gc(er,:),gc(er,:),'sem'); hold on;
-% end
-% 
-% subplot(143)
-% for er = 6:7
-% tch_plot_tc(1:length(edges),allKDF{er},lw,gc(er,:),gc(er,:),'sem'); hold on;
-% end
-% 
-% 
-% subplot(144)
-% for er = 8:9
-% tch_plot_tc(1:length(edges),allKDF{er},lw,gc(er,:),gc(er,:),'sem'); hold on;
-% end

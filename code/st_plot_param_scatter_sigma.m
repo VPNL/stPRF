@@ -109,7 +109,6 @@ ax =   subplot(2,6,pos{er});
 
 purpleColor =[203/255, 100/255, 255/255];
 
-% [111/255, 45/255, 165/255] [203/255, 68/255, 255/255]
 bd = cell2mat(boxData1(:,er));
 scatter(bd(:,1),bd(:,2),10, ...
     'MarkerFaceColor',purpleColor,...

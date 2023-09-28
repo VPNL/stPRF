@@ -33,8 +33,6 @@ for x = 1:length(roiList)
     newT.G(newT.G>idx(x)) = newT.G(newT.G>idx(x))+1;
 end
 
-%
-% lme = fitlme(newT,'varExp ~ roiNumber + (1|subjID)');
 %%
 params = [];
 st = []; g=[]; maxval=[];
@@ -44,10 +42,8 @@ for er = 1:length(roiList)
         params.tmodel = t;
         df = tableFilter(newT,params);
         g{er,t} = df.varExp;
-%         g{er,t} = cell2mat(df.all);
     end
     
-%     p(er) = signrank(g{er,2},g{er,3})
     p1 =fppermutationtestmp(g{er,1},g{er,2},1);
     p2 =fppermutationtestmp(g{er,1},g{er,3},1);
     p3 =fppermutationtestmp(g{er,2},g{er,3},1);

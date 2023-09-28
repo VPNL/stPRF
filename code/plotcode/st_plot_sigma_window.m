@@ -61,7 +61,7 @@ for sj = 1:length(id)
         window{sj,eachROI} = df3.window;
         expo{sj,eachROI} = df3.exponent;
         
-        for tp = 1:nParam %size(df3.temporal,2)
+        for tp = 1:nParam
             agg{sj,eachROI} = df3.(targetVar)(:,tp);
         end
     end
@@ -73,7 +73,6 @@ end
 %%
 fn.fig1 = figure(1); clf;
 saveName.fig1 = ['sigma_and_tau'];
-% figure(1);
 ScrSz = get(0, 'screensize');
 set(gcf, 'position',  [ScrSz(1) ScrSz(2) ScrSz(3)/2 ScrSz(4)/1.5]);
 
@@ -108,17 +107,14 @@ xticklabels(xticks*10);
 
 tch_set_axes;
 title('temporalWindow vs prfSize (SEM)')
-% % legend(roiList,'orientation','horizontal','location','southoutside'); legend box off;
 xlabel('temporal window (ms)');
 ylabel('pRF size (deg)');
 set(gca,'XMinorTick','on','yMinorTick','on');
-% xlim([60 150])
 
 %%
 
 fn.fig2 =figure(2); clf;
 saveName.fig2 = ['sigma_and_tau_CI'];
-% figure(1);
 ScrSz = get(0, 'screensize');
 set(gcf, 'position',  [ScrSz(1) ScrSz(2) ScrSz(3)/2 ScrSz(4)/1.5]);
 
@@ -158,10 +154,13 @@ title('temporalWindow vs prfSize (CI)')
 
 %%
 if dostats == 1
-    p_value = perfrom_permutation(window,roiList);
-    sprintf("temporal_window p_value = %.4f",p_value)
-    p_value = perfrom_permutation(sigma,roiList);
-    sprintf("sigma p_value = %.4f",p_value)
+    table1 = perfrom_bootstrap_stat(window,roiList)
+    table2 = perfrom_bootstrap_stat(sigma,roiList)
+
+%     p_value = perfrom_permutation(window,roiList);
+%     sprintf("temporal_window p_value = %.4f",p_value)
+%     p_value = perfrom_permutation(sigma,roiList);
+%     sprintf("sigma p_value = %.4f",p_value)
 end
 
 end

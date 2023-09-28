@@ -42,10 +42,6 @@ for ee = 1:length(saveNames)
         
         colormap(ax{eachROI},bluewhitered);
         
-%         cbh = colorbar('h');
-%         cbh.Limits;
-
-
         grid on; %grid minor;
         aa = gca;
         set(gca,'GridLineStyle','-')

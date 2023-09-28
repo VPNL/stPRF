@@ -1,4 +1,4 @@
-function [fn,saveName] = st_plot_temporal_ecc(DT, params,roiList,targetModel)
+function [fn,saveName,lme_temporal] = st_plot_temporal_ecc(DT, params,roiList,targetModel)
 %%
 params =[];
 % fn = figure('Renderer', 'painters', 'Position', [100 100 500 500]);
@@ -38,6 +38,7 @@ T_eccTemporal =[]; T_eccSigma=[];
 
 %%
 binsize = 2;
+
 % % unpack table cells to arrays
 df2 = tableArrayFormat(df2);
 id = unique(DT.subjID);
@@ -49,8 +50,8 @@ for eachROI = 1:length(roiList)
         params.subjID =  id(sj);
         params.roiNumber = eachROI;
         df3 = tableFilter(df2,params);
-
-        if ~isempty(df3) && height(df3) > 20    
+        eccTable=[];
+        if ~isempty(df3) % && height(df3) > 20    
             data{sj,eachROI} =st_plot_EccTemporal(df3,binsize);
             T_eccTemporal = table(repmat(sj,size(data{sj,eachROI}.x)), ...
                 data{sj,eachROI}.x, ...
@@ -63,14 +64,16 @@ for eachROI = 1:length(roiList)
                 data2{sj,eachROI}.y, ...
                 'VariableNames',{'subject','ecc','sigma'});
             eccTable = join(T_eccTemporal,T_eccSigma);
+        elseif isempty(df3)
+            continue;
         else
             % empty 
             cdv=3;
 
         end
-        
-    allTable = [allTable; eccTable];
-    roiTable{eachROI} = allTable;
+        eccTable.temporal = eccTable.temporal.* 10; % consider sampling rate
+        allTable = [allTable; eccTable];
+        roiTable{eachROI} = allTable;
     end
     
     lme_temporal_null{eachROI} = fitlme(roiTable{eachROI}, 'temporal ~ ecc');
@@ -81,20 +84,20 @@ for eachROI = 1:length(roiList)
 
 
 end
-lme_temporal
+lme_temporal;
 %% compare intercept only vs slope+intercept
 lme_temporal_1= fitlme(vertcat(roiTable{:}), 'temporal ~ ecc  + (1|subject)');
 lme_temporal_2= fitlme(vertcat(roiTable{:}), 'temporal ~ ecc  + (ecc|subject)');
-compare( lme_temporal_1,lme_temporal_2)
+compare( lme_temporal_1,lme_temporal_2);
 % 
 for eachROI = 1:length(roiList)
-    compare( lme_temporal{eachROI}, lme_temporal2{eachROI})
+    compare( lme_temporal{eachROI}, lme_temporal2{eachROI});
     
 end
 
 %%
 fn.fig1 = figure('Renderer', 'painters', 'Position', [100 100 1200 400]);
-saveName.fig1 = ['ecc_vs_tw'];
+saveName.fig1 = ['ecc_fov_peri'];
 
 
 gcolor = turbo(10);
@@ -113,37 +116,41 @@ for er = 1:length(roiList)
 
     hold on;
 xticks([0 3 6 9 12])
-yticks([0 5 10 15 20 25 30])
-
-xticklabels(xticks)
-yticklabels(yticks*10);
-
-ylim([0 23]); xlim([0 12]);
+yticks([0 50 100 150 200 250 300])
+ylim([0 230]); xlim([0 12]);
 if er ==1
 ylabel('time window (ms)');
 elseif er == 2
-    xlabel('eccentrivity (deg)'); 
+    xlabel('eccentricity (deg)'); 
 end
-tch_set_axes;
- axis square;
-legend off;
-
 
     
     
 slp  = lme_temporal{er}.fixedEffects;
 pval = lme_temporal{er}.Coefficients.pValue;
-xloc = 7; yloc = 20;
+xloc = 1; yloc = 200; 
 if pval(2) < 0.05 && pval(2) > 0.01
-    text(xloc ,yloc , sprintf('b = %0.2f \np < .05',slp(2)),'FontSize',14);
+    text(xloc ,yloc , sprintf('y = %0.2fx+ %0.2f \np < .05',slp(2),slp(1)),'FontSize',18);
 elseif pval(2) < 0.01 && pval(2) > 0.001
-    text(xloc ,yloc , sprintf('b = %0.2f \np < .01',slp(2)),'FontSize',14);
+    text(xloc ,yloc , sprintf('y = %0.2fx + %0.2f \np < .01',slp(2),slp(1)),'FontSize',18);
 elseif pval(2) < 0.001
-    text(xloc ,yloc , sprintf('b = %0.2f \np < .001',slp(2)),'FontSize',14);
+    text(xloc ,yloc , sprintf('y = %0.2fx + %0.2f \np < .001',slp(2),slp(1)),'FontSize',18);
 else
-    text(xloc ,yloc , sprintf('b = %0.2f \np = n.s',slp(2)),'FontSize',14);
+    text(xloc ,yloc , sprintf('y = %0.2fx + %0.2f \np = n.s',slp(2),slp(1)),'FontSize',18);
 end
 title(roiList(er))
+tch_set_axes;
+ axis square;
+legend off;
+
+end
+
+
+for i = 1:length(roiList)
+    pvalue=    lme_temporal{i}.Coefficients.pValue(2);
+    tstat=     lme_temporal{i}.Coefficients.tStat(2);
+    degf = lme_temporal{1}.Coefficients.DF(2);
+    fprintf('[%s]: t(%.2f) = %.2f, p = %.2f\n',roiList{i},degf,tstat,pvalue);
 end
 
 

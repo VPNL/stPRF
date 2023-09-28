@@ -1,8 +1,11 @@
 function st_recon_stprf_ecc(DT,params,roiList,eccBand,plotDir)
 
 saveName = sprintf('%s_recon.mat',eccBand);
+if isfile(fullfile(fileparts(plotDir),'figures',saveName))
+    return;
+end
 
-if ~isfile(fullfile(fileparts(plotDir),'recon',saveName))
+if ~isfile(fullfile(fileparts(plotDir),'figures',saveName))
     params.roiName2 = 'all';
     df = tableRemove(DT,params);
     df = defaultThresh(df,0);
@@ -56,7 +59,7 @@ for ee = 1:length(saveNames)
     
    
     
-    for eachROI = 1 :length(out)
+    for eachROI = 1 :length(roiList)
         ax{eachROI} = subplot(2,3,counter);
 
 
@@ -77,29 +80,11 @@ for ee = 1:length(saveNames)
         box off;
         
         colormap(ax{eachROI},bluewhitered);
-        
-%         cbh = colorbar('h');
-%         cbh.Limits;
 
+        grid on; %grid minor;
+        aa = gca;
+        set(gca,'GridLineStyle','-')
 
-            grid on; %grid minor;
-            aa = gca;
-            set(gca,'GridLineStyle','-')
-%             set(gca,'MinorGridLineStyle','-')
-
-%             aa.YRuler.MajorTickValues = [0:20:500]; %just like major ticks
-
-%             aa.YRuler.MinorTickValues = [0:20:500]; %just like major ticks
-%             aa.XRuler.MinorTickValues = [0:20:500]; %just like major ticks
-
-%             aa.YRuler.MinorTickValuesMode = 'auto'; %or 'manual'
-
-%             set(gca,'GridColor',[0.1 0.2 0.9]) % a bluish color
-
-%             aa.GridColor = [1, 1, 1];  % [R, G, B]
-
-%         xticks(0:10:500);  xticklabels({'0','100','200','300', '400'});
-       
         xticks(0:10:500); xticklabels({'0','100','200','300', '400'});
         set(gca,'FontName','Times','fontsize',17)
 
@@ -111,8 +96,5 @@ for ee = 1:length(saveNames)
 
     
 end
-% [~,n,~]=fileparts(saveName);
-% printnice(fn,[1 300],plotDir,n)
-
 end
 %%

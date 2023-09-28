@@ -5,8 +5,6 @@ rng('default')
 sampleSize = 50;
 
 cc = getmycolors;
-% DT((DT.tmodel=="3ch_stLN"),:).sigma = ...
-%     DT((DT.tmodel=="3ch_stLN"),:).sigma./sqrt(DT((DT.tmodel=="3ch_stLN"),:).exponent);
 
 % initial filter
 df = tableFilter(DT,params);

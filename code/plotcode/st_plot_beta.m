@@ -78,8 +78,8 @@ betas = betas(~isnan(betas(:,1)),:);
 means = nanmean(betas);
 sems = nanstd(betas) / sqrt(size(betas, 1) - 1);
 ncats = 1;
-fill_cols = [.5 .5 1; 1 .5 .5; .5 .5 .5];
-line_cols = [0 0 1; 1 0 0; 0 0 0];
+% fill_cols = [.5 .5 1; 1 .5 .5; .5 .5 .5];
+% line_cols = [0 0 1; 1 0 0; 0 0 0];
 xm = means(:, ncats + 1:ncats * 2);
 ym = means(:, 1:ncats);
 xe = sems(:, ncats + 1:ncats * 2);
@@ -117,7 +117,7 @@ text(0.55+leftshift , 1.6, 'Dorsal', ...
     'HorizontalAlignment', 'left', 'VerticalAlignment', 'middle', ...
     'FontSize', 8, 'FontName', 'Helvetica');
 
-axis square; xticks([0.5 1 1.5 2]); yticks([0.5 1 1.5 2])
+axis square; xticks([0.5 1 1.5 2 2.5]); yticks([0.5 1 1.5 2 2.5])
 tch_set_axes; xlim([0.47 3]); ylim([0.47 3]);
 xlabel('Transient \beta_T');
 ylabel('Sustained \beta_S');
