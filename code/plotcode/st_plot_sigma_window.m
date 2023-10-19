@@ -151,16 +151,49 @@ ylabel('pRF size (deg)');
 set(gca,'XMinorTick','on','yMinorTick','on')
 title('temporalWindow vs prfSize (CI)')
 
+% Maybe I miss something here, but in order to test whether there is a significant 
+% change along the visual hierarchy it is necessary to use participants as statistical units,
+% not building a number of resampled datasets and run the outcome of this new dataset through an ANOVA.
+% In the latter case the number of degrees of freedom would be misleading.
+
 
 %%
 if dostats == 1
-    table1 = perfrom_bootstrap_stat(window,roiList)
-    table2 = perfrom_bootstrap_stat(sigma,roiList)
+    w = double(cellfun(@median,window));
+    s = double(cellfun(@median,sigma));
+
+    subjs = repmat([1:10]',size(w,2),1);
+    rois = repmat([1:9],size(w,1),1);
+
+    T = table(w(:), rois(:),subjs(:),'VariableNames',["temporal","roi",'subject']);
+    lm  = fitlme(T,"temporal~ roi + (1|subject)"); %Random intercept model with a fixed slope.
+    lm2 = fitlme(T, 'temporal ~ roi  + (roi|subject)'); %Random intercept and slope
+    % compare( lm,lm2) % 
+    %this gives  p > .05 so we just take the random intercept model
+    
+    % temporal window
+    lm_anova = anova(lm);
+    
+    T = table(s(:), rois(:),subjs(:),'VariableNames',["temporal","roi",'subject']);
+    lm  = fitlme(T,"temporal~ roi + (1|subject)"); %Random intercept model with a fixed slope.
+    lm2 = fitlme(T, 'temporal ~ roi  + (roi|subject)'); %Random intercept and slope
+    % compare( lm,lm2) % 
+    %this gives  p > .05 so we just take the random intercept model
+
+    % size
+    lm_anova = anova(lm);
+
+    
+end
+
+end
+
+
+
+     %table1 = perfrom_bootstrap_stat(window,roiList)
+     %table2 = perfrom_bootstrap_stat(sigma,roiList)
 
 %     p_value = perfrom_permutation(window,roiList);
 %     sprintf("temporal_window p_value = %.4f",p_value)
 %     p_value = perfrom_permutation(sigma,roiList);
 %     sprintf("sigma p_value = %.4f",p_value)
-end
-
-end
