@@ -16,8 +16,8 @@ It is recommended to run it on a machine with a **GPU** to solve the spatiotempo
 
 
 ## Experiment
-Click to view it on YouTube
 [![experiment](https://img.youtube.com/vi/M9LGkSw4n8Q/0.jpg)](https://youtu.be/M9LGkSw4n8Q)
+Click to view it on YouTube
 
 ## Implemented pRF models
 <img src="doc/models.png " width="700">
