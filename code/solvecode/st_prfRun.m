@@ -257,12 +257,9 @@ end
 %% getting parameter values for prf model fit
 
 % store it
+global dataTYPES
 dataTYPES(dataNum).retinotopyModelParams = params;
 % dataTYPES = dtSet(dataTYPES, 'rm stim params', sParams);
-
-% save it
-saveSession;
-load('mrSESSION.mat');
 
 % store params in view struct
 vw = viewSet(vw, 'rmParams', params);
@@ -282,7 +279,7 @@ end
     % specifying it as an argument in vw = rmMain(vw, ...)
 
     % store params in view struct
-    vw = viewSet(vw, 'rmParams', params);
+    % vw = viewSet(vw, 'rmParams', params);
 
 fprintf('\n[st_prfRun] This is homedir: %s\n',sessionDir)
 fprintf('\n[st_prfRun] This is stimfile of the first: %s\n',stimfile{1})
@@ -322,6 +319,10 @@ catch
     end
 
 end
+
+% save it
+saveSession;
+% load('mrSESSION.mat');
 
 vw = rmMain(vw, [], wSearch, ...
     'model', prfModel, ...
