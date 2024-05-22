@@ -23,7 +23,8 @@ params.analysis.temporal.fs = 100; % fix it to pass input
 
 %% for noise-less
 if isfield(params.analysis,'userInputData') && ~isempty(params.analysis.userInputData)
-    if  contains(params.analysis.userInputData, {'pure', 'noise0', 'noiseless'}) || contains(pwd, {'pure', 'noise0', 'noiseless'})
+    % if  contains(params.analysis.userInputData, {'pure', 'noise0', 'noiseless'}) || contains(pwd, {'pure', 'noise0', 'noiseless'})
+    if contains(params.analysis.userInputData,'pure') || contains(params.analysis.userInputData,'noise0')  || contains(params.analysis.userInputData,'noiseless') 
         params.analysis.doDetrend = 0;
         params.analysis.doBlankBaseline = 0;
         params = getOptimParams(params,1);
