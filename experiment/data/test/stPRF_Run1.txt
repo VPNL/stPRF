@@ -1,0 +1,6 @@
+stPRF conditions: 5s, Shuffle0 
+Stimulus size (radius): 12 
+Run duration (s): 220 
+Run Number: 1 
+
+Trial      Condition     Onset      Duration     Image
